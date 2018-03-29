@@ -17,7 +17,7 @@ test.group('Persona', (group) => {
   })
 
   group.beforeEach(async () => {
-    this.persona = new Persona(use('Config'), use('Validator'), use('Event'), use('Hash'))
+    this.persona = new Persona(use('Config'), use('Validator'), use('Event'), use('Encryption'), use('Hash'))
     await use('Database').beginGlobalTransaction()
   })
 

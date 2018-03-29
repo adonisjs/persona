@@ -36,7 +36,7 @@ class InvalidTokenException extends GE.LogicalException {
  * @param {Object} Hash
  */
 class Persona {
-  constructor (Config, Validator, Event, Hash) {
+  constructor (Config, Validator, Event, Encryption, Hash) {
     this.config = Config.merge('persona', {
       uids: ['email'],
       email: 'email',
@@ -56,6 +56,8 @@ class Persona {
     this.Hash = Hash
     this.Event = Event
     this.Validator = Validator
+
+    this._encrypter = Encryption.getInstance({ hmac: false })
     this._model = null
   }
 
@@ -184,7 +186,7 @@ class Persona {
       return row.token
     }
 
-    const token = randtoken.generate(16)
+    const token = this._encrypter.encrypt(randtoken.generate(16))
     await user.tokens().create({ type, token })
     return token
   }
