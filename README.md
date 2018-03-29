@@ -2,8 +2,9 @@
 
 > Opinionated user management service for AdonisJs
 
-Since AdonisJs is all about removing redundant code from your code base. This add-on is another attempt for same.
+**Make sure @adonisjs/framework version is >= 5.0.6**
 
+Since AdonisJs is all about removing redundant code from your code base. This add-on is another attempt for same.
 
 ## What is Persona?
 
