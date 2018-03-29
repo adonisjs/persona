@@ -19,13 +19,12 @@
     "providers",
     "config"
   ],
-  "private": true,
   "keywords": [
     "adonisjs",
     "adonis-framework"
   ],
-  "author": "",
-  "license": "",
+  "author": "virk",
+  "license": "MIT",
   "devDependencies": {
     "@adonisjs/ace": "^5.0.1",
     "@adonisjs/fold": "^4.0.7",
@@ -49,5 +48,16 @@
     "globals": [
       "use"
     ]
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adonisjs/adonis-persona.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adonisjs/adonis-persona/issues"
+  },
+  "homepage": "https://github.com/adonisjs/adonis-persona#readme"
 }
