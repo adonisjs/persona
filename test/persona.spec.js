@@ -21,8 +21,8 @@ test.group('Persona', (group) => {
     await use('Database').beginGlobalTransaction()
   })
 
-  group.afterEach(() => {
-    use('Database').rollbackGlobalTransaction()
+  group.afterEach(async () => {
+    await use('Database').rollbackGlobalTransaction()
   })
 
   group.after(async () => {
