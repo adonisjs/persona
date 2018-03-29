@@ -8,6 +8,8 @@ Since AdonisJs is all about removing redundant code from your code base. This ad
 
 ## What is Persona?
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/adonisjs/adonis-persona.svg)](https://greenkeeper.io/)
+
 Persona is a simple functional service to let you **create**, **verify** and **update** user profiles.
 
 Persona is not for everyone, if your login system is too complex and rely on many factors, then Persona is not for you. **However, persona works great for majority of use cases**.
