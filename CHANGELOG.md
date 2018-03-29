@@ -1,3 +1,13 @@
+<a name="1.0.2"></a>
+## [1.0.2](https://github.com/adonisjs/adonis-persona/compare/v1.0.1...v1.0.2) (2018-03-29)
+
+
+### Features
+
+* **token:** encrypt tokens before sending ([fef3d2f](https://github.com/adonisjs/adonis-persona/commit/fef3d2f))
+
+
+
 <a name="1.0.0"></a>
 # 1.0.0 (2018-03-29)
 
