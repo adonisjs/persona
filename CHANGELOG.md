@@ -1,3 +1,13 @@
+<a name="1.0.3"></a>
+## [1.0.3](https://github.com/adonisjs/adonis-persona/compare/v1.0.2...v1.0.3) (2018-03-31)
+
+
+### Bug Fixes
+
+* **verifyToken:** remove token once used ([328c22b](https://github.com/adonisjs/adonis-persona/commit/328c22b)), closes [#5](https://github.com/adonisjs/adonis-persona/issues/5)
+
+
+
 <a name="1.0.2"></a>
 ## [1.0.2](https://github.com/adonisjs/adonis-persona/compare/v1.0.1...v1.0.2) (2018-03-29)
 
