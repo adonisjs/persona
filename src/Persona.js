@@ -223,6 +223,21 @@ class Persona {
   }
 
   /**
+   * Remvoes the token from the tokens table
+   *
+   * @method removeToken
+   *
+   * @param  {String}    token
+   * @param  {String}    type
+   *
+   * @return {void}
+   */
+  async removeToken (token, type) {
+    const query = this.getModel().prototype.tokens().RelatedModel.query()
+    await query.where('token', token).where('type', type).delete()
+  }
+
+  /**
    * Returns the model class
    *
    * @method getModel
@@ -544,6 +559,7 @@ class Persona {
      */
     if (user.account_status === this.config.newAccountState) {
       user.account_status = this.config.verifiedAccountState
+      this.removeToken(token, 'email')
       await user.save()
     }
 
@@ -733,9 +749,10 @@ class Persona {
     const user = tokenRow.getRelated('user')
     this._setPassword(user, this._getPassword(payload))
 
-    this.Event.fire('password::recovered', { user })
     await user.save()
+    await this.removeToken(token, 'password')
 
+    this.Event.fire('password::recovered', { user })
     return user
   }
 }
