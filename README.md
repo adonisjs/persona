@@ -4,31 +4,30 @@
 
 **Make sure @adonisjs/framework version is >= 5.0.6**
 
-Since AdonisJs is all about removing redundant code from your code base. This add-on is another attempt for same.
+AdonisJs is all about removing redundant code from your code base. This add-on tries to do the same.
 
 ## What is Persona?
 
-Persona is a simple functional service to let you **create**, **verify** and **update** user profiles.
+Persona is a simple, functional service to let you **create**, **verify** and **update** user profiles.
 
-Persona is not for everyone, if your login system is too complex and rely on many factors, then Persona is not for you. **However, persona works great for majority of use cases**.
+Persona is not for everyone; if your login system is too complex and relies on many factors, Persona is not for you. **However, persona works great for most use cases**.
 
-## What is does?
-1. It helps you in registering new users.
-2. Generate email verification token.
-3. Validate credentials on login.
-4. On email change, set the user account to `pending` state and re-generate the email verification token.
-5. Allow password change.
-6. Allow forget password.
+## What does it do?
+1. Helps you register new users.
+2. Generates email verification tokens.
+3. Validates credentials on login.
+4. On email change, sets the user account to a `pending` state and re-generates the email verification token.
+5. Allows changing passwords.
+6. Allows recovering forgotten passwords.
 
-## What is doesn't?
-
-1. Do not generate any routes, controllers or views for you.
-2. Do not send emails. However emit events that you can catch and send emails.
-3. Doesn't set any sessions or generate JWT tokens
+## What does it NOT do?
+1. Does not generate any routes, controllers or views for you.
+2. Does not send emails. However, it emits events that you can use to send emails.
+3. Does not create sessions or generate JWT tokens.
 
 
 ## Setup
-Run the following command to grab the add-on from npm.
+Run the following command to grab the add-on from npm:
 
 ```bash
 adonis install @adonisjs/persona
@@ -37,7 +36,7 @@ adonis install @adonisjs/persona
 adonis install @adonisjs/persona --yarn
 ```
 
-And then register the provider inside the providers array.
+Follow up by registering the provider inside the providers array:
 
 ```js
 const providers = [
@@ -45,7 +44,7 @@ const providers = [
 ]
 ```
 
-And then you can access it as follows
+You may then access it as follows:
 
 ```js
 const Persona = use('Persona')
@@ -57,14 +56,14 @@ The config file is saved as `config/persona.js`.
 
 | Key | Value | Description |
 |-----|--------|------------|
-| uids | ['email'] | An array of database columns, that will be used as `uids`. If your system allows, `username` and `emails` both, then simply add them to this array.
-| email | email | The field to be used as email. Everytime user changes the value of this field, their account will be set to `pending` state.
+| uids | ['email'] | An array of database columns that will be used as `uids`. If your system allows `username` and `emails` both, then simply add them to this array.
+| email | email | The field to be used as email. Every time a user changes the value of this field, their account will be set to the `pending` state.
 | password | password | The field to be used as password.
 | model | App/Models/User | The user model to be used.
-| newAccountState | pending | What is the account state of the user, when they first signup.
-| verifiedAccountState | active | The account state of the user when they verify their email address
-| dateFormat | YYYY-MM-DD HH:mm:ss | Your database date format, required for finding if the token has been expired or not.
-| validationMessages | function | A function that returns an object of messages to be used for validation. It is same the validator custom messages.
+| newAccountState | pending | The default account state for new users.
+| verifiedAccountState | active | The account state for users after verifying their email address.
+| dateFormat | YYYY-MM-DD HH:mm:ss | Your database date format, required for determining if the token has been expired or not.
+| validationMessages | function | A function that returns an object of messages to be used for validation. The syntax is the same as `Validator` custom messages.
 
 ## Constraints
 
@@ -95,16 +94,16 @@ Let's go through the API of persona.
 
 #### register(payload, [callback])
 
-> The optional `callback` is invoked with the original payload, just before the user is saved to the database. So this is your chance to attach any other properties to the payload.
+> The optional `callback` is invoked with the original payload just before the user is saved to the database. You can use it if you need to attach any other properties to the payload.
 
-The register method takes the user input data and perform following actions on it.
+The register method takes the user input data and performs the following actions on it.
 
-1. Validate that all `uids` are unique.
-2. Email is unique and is a valid email address.
-3. Password is confirmed.
-4. Creates user account with the `account_status = pending`.
-5. Generate and save email verification token inside the `tokens` table.
-5. Emits `user::created` event. You can listen this event to send an email to the user.
+1. Validates that all `uids` are unique.
+2. Checks that email is unique and is a valid email address.
+3. Makes sure the password is confirmed.
+4. Creates a new user account with the `account_status = pending`.
+5. Generates and saves an email verification token inside the `tokens` table.
+5. Emits a `user::created` event. You can listen for this event to send an email to the user.
 
 ```js
 const Persona = use('Persona')
@@ -122,9 +121,9 @@ async register ({ request, auth, response }) {
 
 #### verify(payload, [callback])
 
->  The optional `callback` is invoked with the user instance, just before the password verification. So this is your chance to check for `userRole` or any other property you want.
+>  The optional `callback` is invoked with the user instance just before the password verification. You can use it to check for `userRole` or any other property you want.
 
-Verify the user credentials. The value of `uid` will be checked against all the `uids`.
+Verifies the user credentials. The value of `uid` will be checked against all the `uids`.
 
 ```js
 async login ({ request, auth, response }) {
@@ -138,9 +137,9 @@ async login ({ request, auth, response }) {
 
 #### verifyEmail(token)
 
-Verify user email using the token. Ideally it will be after someone clicks a URL from their email address.
+Verifies the user's email using the token. Ideally that should be after someone clicks a URL from their email address.
 
-1. It will remove the token from the tokens table.
+1. Removes the token from the tokens table.
 2. Set user `account_status = active`.
 
 ```js
@@ -154,13 +153,13 @@ async verifyEmail ({ params, session, response }) {
 
 #### updateProfile(user, payload)
 
-Updates the user columns inside the database. However, if email is changed, then it will perform following steps.
+Updates the user columns inside the database. However, if the email is changed, it performs the following steps:
 
-> Note this method will throw exception if user is trying to change the password.
+> Please note that this method will throw an exception if the user is trying to change the password.
 
-1. Set user `account_status = pending`.
-2. Generate email verification token.
-3. Fire `email::changed` event.
+1. Sets the user's `account_status = pending`.
+2. Generates an email verification token.
+3. Fires the `email::changed` event.
 
 ```js
 async update ({ request, auth }) {
@@ -172,12 +171,12 @@ async update ({ request, auth }) {
 
 #### updatePassword(user, payload)
 
-Updates the user password by performing following steps.
+Updates the user's password by performing the following steps:
 
-1. Ensure `old_password` matches the user password.
-2. New password is confirmed.
-3. Updates the user password
-4. Fires `password::changed` event. You can use this event to send an email about password change.
+1. Ensures `old_password` matches the user's password.
+2. Makes sure the new password is confirmed.
+3. Updates the user password.
+4. Fires the `password::changed` event. You can listen for this event to send an email about the password change.
 
 ```js
 async updatePassword ({ request, auth }) {
@@ -189,11 +188,11 @@ async updatePassword ({ request, auth }) {
 
 #### forgotPassword(uid)
 
-Take a forgot password request from the user by passing their `uid`. Uid will be matched for all the `uids` inside the config file.
+Takes a forgot password request from the user by passing their `uid`. Uid will be matched against all the `uids` inside the config file.
 
-1. Find a user with the matching uid.
-2. Generate password change token.
-3. Emit `forgot::password` event. You can use this event to send the email with the token to reset the password.
+1. Finds a user with the matching uid.
+2. Generates a password change token.
+3. Emits the `forgot::password` event. You can listen for this event to send an email with the token to reset the password.
 
 ```js
 forgotPassword ({ request }) {
@@ -203,11 +202,11 @@ forgotPassword ({ request }) {
 
 #### updatePasswordByToken(token, payload)
 
-Update the user password by using a token. This method will perform following checks.
+Updates the user password using a token. This method performs the following checks:
 
-1. Make sure token is valid and not expired.
-2. Ensure password is confirmed.
-3. Update user password.
+1. Makes sure the token is valid and not expired.
+2. Ensures the password is confirmed.
+3. Updates the user's password.
 
 ```js
 updatePasswordByToken ({ request, params }) {
@@ -219,7 +218,7 @@ updatePasswordByToken ({ request, params }) {
 ```
 
 ## Custom messages
-You can define a function inside `config/persona.js` file, which returns an object of messages to be used as validation messages. The syntax is same as the `Validator` custom messages.
+You can define a function inside the `config/persona.js` file, which returns an object of messages to be used as validation messages. The syntax is the same as `Validator` custom messages.
 
 ```js
 {
@@ -241,24 +240,24 @@ The `validationMessages` method gets an `action` parameter. You can use it to cu
 
 ## Events emitted
 
-Below is the list of events emitted at different occasion. 
+Below is the list of events emitted at different occasions. 
 
 | Event | Payload | Description |
 |--------|--------|-------------|
 | user::created | `{ user, token }` | Emitted when a new user is created |
-| email::changed | `{ user, oldEmail, token }` | Emitted when user changes their email address
-| password::changed | `{ user }` | When user change their password by providing the old password |
-| forgot::password | `{ user, token }` | Emitted when user asks for a token to change their password.
-| password::recovered | `{ user }` | Emitted when user password is changed using the token |
+| email::changed | `{ user, oldEmail, token }` | Emitted when a user changes their email address |
+| password::changed | `{ user }` | Emitted when a user changes their password by providing the old password |
+| forgot::password | `{ user, token }` | Emitted when a user asks for a token to change their password |
+| password::recovered | `{ user }` | Emitted when a user's password is changed using the token |
 
 ## Exceptions raised
 
 The entire API is driven by exceptions, which means you will hardly have to write `if/else` statements.
 
-This is great, since Adonis allows managing response by catching exceptions globally.
+This is great, since Adonis allows managing responses by catching exceptions globally.
 
 #### ValidationException
-The validation exception is raised when validation fails. If you are already handling `Validator` exceptions, then you won't have to do anything special.
+Raised when validation fails. If you are already handling `Validator` exceptions, you won't have to do anything special.
 
 #### InvalidTokenException
-Raised when the token user is using to verify their email, or reset password is invalid.
+Raised when a supplied token, to verify an email or reset password with, is invalid.

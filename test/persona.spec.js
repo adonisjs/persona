@@ -257,6 +257,9 @@ test.group('Persona', (group) => {
 
     await user.reload()
     assert.equal(user.account_status, 'active')
+
+    const tokens = await user.tokens().fetch()
+    assert.equal(tokens.size(), 0)
   })
 
   test('do not set to active when initial state is not pending', async (assert) => {
@@ -644,6 +647,9 @@ test.group('Persona', (group) => {
     Event.restore()
 
     await user.reload()
+    const tokens = await user.tokens().fetch()
+    assert.equal(tokens.size(), 0)
+
     const verified = await use('Hash').verify('newsecret', user.password)
     assert.isTrue(verified)
   })
