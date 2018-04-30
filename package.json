@@ -1,6 +1,6 @@
 {
   "name": "@adonisjs/persona",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Opinionated user management service for AdonisJs",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
   "license": "MIT",
   "devDependencies": {
     "@adonisjs/ace": "^5.0.1",
-    "@adonisjs/fold": "^4.0.7",
+    "@adonisjs/fold": "^4.0.8",
     "@adonisjs/framework": "^5.0.6",
     "@adonisjs/lucid": "^5.0.3",
     "@adonisjs/sink": "^1.0.16",
@@ -36,13 +36,13 @@
     "cz-conventional-changelog": "^2.1.0",
     "japa": "^1.0.6",
     "japa-cli": "^1.0.1",
-    "nyc": "^11.6.0",
+    "nyc": "^11.7.1",
     "sqlite3": "^4.0.0",
     "standard": "^11.0.1"
   },
   "dependencies": {
     "@adonisjs/generic-exceptions": "^2.0.0",
-    "moment": "^2.21.0",
+    "moment": "^2.22.1",
     "rand-token": "^0.4.0"
   },
   "standard": {

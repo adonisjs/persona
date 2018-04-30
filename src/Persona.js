@@ -314,7 +314,7 @@ class Persona {
     }
 
     return {
-      [this.config.email]: `email|unique:${this.getTable()},${this.config.email},${this.getModel().primaryKey},${userId}`
+      [this.config.email]: `required|email|unique:${this.getTable()},${this.config.email},${this.getModel().primaryKey},${userId}`
     }
   }
 
@@ -646,7 +646,7 @@ class Persona {
      */
     user.merge(payload)
 
-    if (newEmail && oldEmail !== newEmail) {
+    if (newEmail !== undefined && oldEmail !== newEmail) {
       /**
        * We need to reset the user email, since we are calling
        * updateEmail and it needs user old email address

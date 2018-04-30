@@ -1,3 +1,13 @@
+<a name="1.0.4"></a>
+## [1.0.4](https://github.com/adonisjs/adonis-persona/compare/v1.0.3...v1.0.4) (2018-04-30)
+
+
+### Bug Fixes
+
+* **updateProfile:** make sure to validate empty email address on update ([fdbc9b3](https://github.com/adonisjs/adonis-persona/commit/fdbc9b3))
+
+
+
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.com/adonisjs/adonis-persona/compare/v1.0.2...v1.0.3) (2018-03-31)
 

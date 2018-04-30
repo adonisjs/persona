@@ -311,8 +311,28 @@ test.group('Persona', (group) => {
 
   test('get updateEmail validation rules', async (assert) => {
     assert.deepEqual(this.persona.updateEmailRules(1), {
-      email: 'email|unique:users,email,id,1'
+      email: 'required|email|unique:users,email,id,1'
     })
+  })
+
+  test('when updating email make sure its required', async (assert) => {
+    assert.plan(1)
+
+    const user = await getUser().create({
+      email: 'foo@bar.com',
+      account_status: 'inactive',
+      password: 'secret'
+    })
+
+    try {
+      await this.persona.updateProfile(user, { email: '' })
+    } catch (error) {
+      assert.deepEqual(error.messages, [{
+        message: 'required validation failed on email',
+        field: 'email',
+        validation: 'required'
+      }])
+    }
   })
 
   test('when updating email make sure its valid', async (assert) => {
