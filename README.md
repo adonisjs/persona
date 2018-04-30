@@ -105,6 +105,8 @@ The register method takes the user input data and performs the following actions
 5. Generates and saves an email verification token inside the `tokens` table.
 5. Emits a `user::created` event. You can listen for this event to send an email to the user.
 
+> Make sure to use `querystring` module to encode the token when sending via Email.
+
 ```js
 const Persona = use('Persona')
 
