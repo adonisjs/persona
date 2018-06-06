@@ -175,6 +175,9 @@ async update ({ request, auth }) {
 
 Updates the user's password by performing the following steps:
 
+> Make sure to have the `beforeSave` hook in place for hashing the password. Otherwise
+> the password will be saved as a plain string.
+
 1. Ensures `old_password` matches the user's password.
 2. Makes sure the new password is confirmed.
 3. Updates the user password.
