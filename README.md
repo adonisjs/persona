@@ -263,3 +263,54 @@ Raised when validation fails. If you are already handling `Validator` exceptions
 
 #### InvalidTokenException
 Raised when a supplied token, to verify an email or reset password with, is invalid.
+
+## Custom rules
+At times, you may want to have custom set of rules when registering or login new users. You can override following methods for same.
+
+The code can be added inside the hooks file or even in the registeration controller.
+
+#### registerationRules
+
+```js
+Persona.prototype.registerationRules = function () {
+  return {
+    email: 'required|email|unique:users,email',
+    password: 'required|confirmed'
+  }
+}
+```
+
+#### updateEmailRules
+```js
+Persona.prototype.updateEmailRules = function (userId) {
+  return {
+    email: `required|email|unique:users,email,id,${userId}`
+  }
+}
+```
+
+#### updatePasswordRules
+```js
+Persona.prototype.updatePasswordRules = function (enforceOldPassword = true) {
+  if (!enforceOldPassword) {
+    return {
+      password: 'required|confirmed'
+    }
+  }
+
+  return {
+    old_password: 'required',
+    password: 'required|confirmed'
+  }
+}
+```
+
+#### loginRules
+```js
+Persona.prototype.loginRules = function () {
+  return {
+    uid: 'required',
+    password: 'required'
+  }
+}
+```
