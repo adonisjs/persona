@@ -1,3 +1,13 @@
+<a name="1.0.5"></a>
+## [1.0.5](https://github.com/adonisjs/adonis-persona/compare/v1.0.4...v1.0.5) (2018-06-11)
+
+
+### Bug Fixes
+
+* **persona:** reference model using getModel method ([8151bdd](https://github.com/adonisjs/adonis-persona/commit/8151bdd))
+
+
+
 <a name="1.0.4"></a>
 ## [1.0.4](https://github.com/adonisjs/adonis-persona/compare/v1.0.3...v1.0.4) (2018-04-30)
 
