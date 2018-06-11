@@ -1,6 +1,6 @@
 {
   "name": "@adonisjs/persona",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Opinionated user management service for AdonisJs",
   "main": "index.js",
   "scripts": {
