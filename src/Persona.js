@@ -483,7 +483,7 @@ class Persona {
       await callback(payload)
     }
 
-    const user = await this._model.create(payload)
+    const user = await this.getModel().create(payload)
 
     /**
      * Get email verification token for the user

@@ -735,4 +735,18 @@ test.group('Persona', (group) => {
     const token1 = await this.persona.generateToken(user1, 'email')
     assert.notEqual(token, token1)
   })
+
+  test('use custom registration rules', async (assert) => {
+    this.persona.registerationRules = function () {
+      return {
+        username: 'required'
+      }
+    }
+
+    await this.persona.register({ username: 'virk', email: 'foo@bar.com' })
+    const users = await getUser().all()
+
+    assert.equal(users.size(), 1)
+    assert.equal(users.first().email, 'foo@bar.com')
+  })
 })
