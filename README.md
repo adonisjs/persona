@@ -218,7 +218,7 @@ updatePasswordByToken ({ request, params }) {
   const token = params.token
   const payload = request.only(['password', 'password_confirmation'])
   
-  const user = await Persona.updatePasswordByToken(payload)
+  const user = await Persona.updatePasswordByToken(token, payload)
 }
 ```
 
