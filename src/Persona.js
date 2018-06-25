@@ -285,9 +285,9 @@ class Persona {
    *
    * @deprecated
    */
-  registerationRules (payload) {
+  registerationRules () {
     console.warn('The \'registerationRules\' method is deprecated. Use \'registrationRules\' instead')
-    return this.registrationRules(payload)
+    return this.registrationRules()
   }
 
   /**
