@@ -379,25 +379,25 @@ class Persona {
    * @param  {Object} payload
    *
    * @return {void}
-   * 
+   *
    * @deprecated
    */
   massageRegisterationData (payload) {
-    console.warn('The \'massageRegisterationData\' method is deprecated. Use \'messageRegistrationData\' instead')
-    return this.messageRegistrationData(payload)
+    console.warn('The \'massageRegisterationData\' method is deprecated. Use \'massageRegistrationData\' instead')
+    return this.massageRegistrationData(payload)
   }
 
   /**
    * Mutates the registration payload in the shape that
    * can be inserted to the database
    *
-   * @method messageRegistrationData
+   * @method massageRegistrationData
    *
    * @param  {Object}                 payload
    *
    * @return {void}
    */
-  messageRegistrationData (payload) {
+  massageRegistrationData (payload) {
     delete payload[this._passwordConfirmationField]
     payload.account_status = this.config.newAccountState
   }
@@ -508,7 +508,7 @@ class Persona {
    */
   async register (payload, callback) {
     await this.runValidation(payload, this.registrationRules(), 'register')
-    this.messageRegistrationData(payload)
+    this.massageRegistrationData(payload)
 
     if (typeof (callback) === 'function') {
       await callback(payload)
