@@ -275,7 +275,7 @@ The code can be added inside the hooks file or even in the registeration control
 #### registerationRules
 
 ```js
-Persona.prototype.registerationRules = function () {
+Persona.registerationRules = function () {
   return {
     email: 'required|email|unique:users,email',
     password: 'required|confirmed'
@@ -285,7 +285,7 @@ Persona.prototype.registerationRules = function () {
 
 #### updateEmailRules
 ```js
-Persona.prototype.updateEmailRules = function (userId) {
+Persona.updateEmailRules = function (userId) {
   return {
     email: `required|email|unique:users,email,id,${userId}`
   }
@@ -294,7 +294,7 @@ Persona.prototype.updateEmailRules = function (userId) {
 
 #### updatePasswordRules
 ```js
-Persona.prototype.updatePasswordRules = function (enforceOldPassword = true) {
+Persona.updatePasswordRules = function (enforceOldPassword = true) {
   if (!enforceOldPassword) {
     return {
       password: 'required|confirmed'
@@ -310,7 +310,7 @@ Persona.prototype.updatePasswordRules = function (enforceOldPassword = true) {
 
 #### loginRules
 ```js
-Persona.prototype.loginRules = function () {
+Persona.loginRules = function () {
   return {
     uid: 'required',
     password: 'required'
