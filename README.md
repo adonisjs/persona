@@ -218,7 +218,7 @@ updatePasswordByToken ({ request, params }) {
   const token = params.token
   const payload = request.only(['password', 'password_confirmation'])
   
-  const user = await Persona.updatePasswordByToken(payload)
+  const user = await Persona.updatePasswordByToken(token, payload)
 }
 ```
 
@@ -275,7 +275,7 @@ The code can be added inside the hooks file or even in the registration controll
 #### registrationRules
 
 ```js
-Persona.prototype.registrationRules = function () {
+Persona.registrationRules = function () {
   return {
     email: 'required|email|unique:users,email',
     password: 'required|confirmed'
@@ -285,7 +285,7 @@ Persona.prototype.registrationRules = function () {
 
 #### updateEmailRules
 ```js
-Persona.prototype.updateEmailRules = function (userId) {
+Persona.updateEmailRules = function (userId) {
   return {
     email: `required|email|unique:users,email,id,${userId}`
   }
@@ -294,7 +294,7 @@ Persona.prototype.updateEmailRules = function (userId) {
 
 #### updatePasswordRules
 ```js
-Persona.prototype.updatePasswordRules = function (enforceOldPassword = true) {
+Persona.updatePasswordRules = function (enforceOldPassword = true) {
   if (!enforceOldPassword) {
     return {
       password: 'required|confirmed'
@@ -310,7 +310,7 @@ Persona.prototype.updatePasswordRules = function (enforceOldPassword = true) {
 
 #### loginRules
 ```js
-Persona.prototype.loginRules = function () {
+Persona.loginRules = function () {
   return {
     uid: 'required',
     password: 'required'
