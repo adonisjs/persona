@@ -52,7 +52,7 @@ const Persona = use('Persona')
 
 ## Config
 
-The config file is saved as `config/persona.js`. 
+The config file is saved as `config/persona.js`.
 
 | Key | Value | Description |
 |-----|--------|------------|
@@ -71,22 +71,22 @@ There are some intentional constraints in place.
 
 1. Only works with `Lucid` models.
 2. The `App/Models/User` must have a relationship setup with `App/Models/Token` and vice-versa.
-   
+
    ```js
    class User extends Model {
      tokens () {
        return this.hasMany('App/Models/Token')
      }
    }
-   
+
    class Token extends Model {
      user () {
        return this.belongsTo('App/Models/User')
      }
    }
    ```
-   
- 3. User table must have a column called `account_status`.
+
+ 3. User table must have a `string` column called `account_status`.
 
 ## API
 
@@ -217,7 +217,7 @@ Updates the user password using a token. This method performs the following chec
 updatePasswordByToken ({ request, params }) {
   const token = params.token
   const payload = request.only(['password', 'password_confirmation'])
-  
+
   const user = await Persona.updatePasswordByToken(token, payload)
 }
 ```
@@ -245,7 +245,7 @@ The `validationMessages` method gets an `action` parameter. You can use it to cu
 
 ## Events emitted
 
-Below is the list of events emitted at different occasions. 
+Below is the list of events emitted at different occasions.
 
 | Event | Payload | Description |
 |--------|--------|-------------|
