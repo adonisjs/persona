@@ -134,7 +134,7 @@ async login ({ request, auth, response }) {
 
   await auth.login(user)
   response.redirect('/dashboard')
-})
+}
 ```
 
 #### verifyEmail(token)
@@ -150,7 +150,7 @@ async verifyEmail ({ params, session, response }) {
 
   session.flash({ message: 'Email verified' })
   response.redirect('back')
-})
+}
 ```
 
 #### updateProfile(user, payload)
@@ -168,7 +168,7 @@ async update ({ request, auth }) {
   const payload = request.only(['firstname', 'email'])
   const user = auth.user
   await Persona.updateProfile(user, payload)
-})
+}
 ```
 
 #### updatePassword(user, payload)
@@ -188,7 +188,7 @@ async updatePassword ({ request, auth }) {
   const payload = request.only(['old_password', 'password', 'password_confirmation'])
   const user = auth.user
   await Persona.updatePassword(user, payload)
-})
+}
 ```
 
 #### forgotPassword(uid)
