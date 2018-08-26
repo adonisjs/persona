@@ -200,7 +200,7 @@ Takes a forgot password request from the user by passing their `uid`. Uid will b
 3. Emits the `forgot::password` event. You can listen for this event to send an email with the token to reset the password.
 
 ```js
-forgotPassword ({ request }) {
+async forgotPassword ({ request }) {
   await Persona.forgotPassword(request.input('uid'))
 }
 ```
@@ -214,7 +214,7 @@ Updates the user password using a token. This method performs the following chec
 3. Updates the user's password.
 
 ```js
-updatePasswordByToken ({ request, params }) {
+async updatePasswordByToken ({ request, params }) {
   const token = params.token
   const payload = request.only(['password', 'password_confirmation'])
 
