@@ -51,7 +51,8 @@ class Persona {
      * Varients of password fields
      */
     this._oldPasswordField = `old_${this.config.password}`
-    this._passwordConfirmationField = `${this.config.password}_confirmation`
+    this._newPasswordField = `new_${this.config.password}`
+    this._passwordConfirmationField = `new_${this.config.password}_confirmation`
 
     this.Hash = Hash
     this.Event = Event
@@ -673,7 +674,7 @@ class Persona {
    * @example
    * ```js
    * const user = auth.user
-   * const payload = request.only(['old_password', 'password', 'password_confirmation'])
+   * const payload = request.only(['old_password', 'new_password', 'new_password_confirmation'])
    *
    * await Persona.updatePassword(user, payload)
    * ```
@@ -682,7 +683,7 @@ class Persona {
     await this.runValidation(payload, this.updatePasswordRules(), 'passwordUpdate')
 
     const oldPassword = payload[this._oldPasswordField]
-    const newPassword = this._getPassword(payload)
+    const newPassword = payload[this._newPasswordField]
     const existingOldPassword = this._getPassword(user)
 
     await this.verifyPassword(oldPassword, existingOldPassword, this._oldPasswordField)

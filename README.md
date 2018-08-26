@@ -185,7 +185,7 @@ Updates the user's password by performing the following steps:
 
 ```js
 async updatePassword ({ request, auth }) {
-  const payload = request.only(['old_password', 'password', 'password_confirmation'])
+  const payload = request.only(['old_password', 'new_password', 'new_password_confirmation'])
   const user = auth.user
   await Persona.updatePassword(user, payload)
 }
@@ -216,7 +216,7 @@ Updates the user password using a token. This method performs the following chec
 ```js
 async updatePasswordByToken ({ request, params }) {
   const token = params.token
-  const payload = request.only(['password', 'password_confirmation'])
+  const payload = request.only(['new_password', 'new_password_confirmation'])
 
   const user = await Persona.updatePasswordByToken(token, payload)
 }
@@ -297,13 +297,13 @@ Persona.updateEmailRules = function (userId) {
 Persona.updatePasswordRules = function (enforceOldPassword = true) {
   if (!enforceOldPassword) {
     return {
-      password: 'required|confirmed'
+      new_password: 'required|confirmed'
     }
   }
 
   return {
     old_password: 'required',
-    password: 'required|confirmed'
+    new_password: 'required|confirmed'
   }
 }
 ```
