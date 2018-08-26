@@ -52,7 +52,7 @@ class Persona {
      */
     this._oldPasswordField = `old_${this.config.password}`
     this._newPasswordField = `new_${this.config.password}`
-    this._passwordConfirmationField = `${this.config.password}_confirmation`
+    this._passwordConfirmationField = `new_${this.config.password}_confirmation`
 
     this.Hash = Hash
     this.Event = Event
@@ -674,7 +674,7 @@ class Persona {
    * @example
    * ```js
    * const user = auth.user
-   * const payload = request.only(['old_password', 'new_password', 'password_confirmation'])
+   * const payload = request.only(['old_password', 'new_password', 'new_password_confirmation'])
    *
    * await Persona.updatePassword(user, payload)
    * ```
