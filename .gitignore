@@ -5,5 +5,7 @@ npm-debug.log
 .idea
 out
 .nyc_output
-package-lock.json
 app/database.sqlite
+yarn.lock
+shrinkwrap.yaml
+package-lock.json
