@@ -94,5 +94,15 @@ module.exports = {
   */
   validationMessages: () => {
     return {}
-  }
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Valid for
+  |--------------------------------------------------------------------------
+  |
+  | The default time in hours the token is valid for.
+  |
+  */
+  validFor: 24
 }

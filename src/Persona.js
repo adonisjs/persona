@@ -44,7 +44,8 @@ class Persona {
       model: 'App/Models/User',
       newAccountState: 'pending',
       verifiedAccountState: 'active',
-      dateFormat: 'YYYY-MM-DD HH:mm:ss'
+      dateFormat: 'YYYY-MM-DD HH:mm:ss',
+      validFor: 24
     })
 
     /**
@@ -157,7 +158,7 @@ class Persona {
     query
       .where('type', type)
       .where('is_revoked', false)
-      .where('updated_at', '>=', moment().subtract(24, 'hours').format(this.config.dateFormat))
+      .where('updated_at', '>=', moment().subtract(this.config.validFor, 'hours').format(this.config.dateFormat))
   }
 
   /**
