@@ -771,6 +771,29 @@ test.group('Persona', (group) => {
     assert.equal(tokenEntity.expires_at, moment().add(1, 'days').format('YYYY-MM-DD HH:mm:ss'))
   })
 
+  test('tokens without an expiry date are invalid', async (assert) => {
+    const user = await getUser().create({ email: 'foo@bar.com' })
+
+    await use('Database').table('tokens').insert({
+      token: 'hello',
+      type: 'email',
+      user_id: user.id,
+      is_revoked: false,
+      created_at: moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss'),
+      updated_at: moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss'),
+      expires_at: null
+    })
+
+    assert.plan(2)
+
+    try {
+      await this.persona.verifyEmail('hello')
+    } catch ({ message, name }) {
+      assert.equal(message, 'The token is invalid or expired')
+      assert.equal(name, 'InvalidTokenException')
+    }
+  })
+
   test('the expiry date for a tokens can be changed for each token', async (assert) => {
     const user = await getUser().create({
       username: 'virk',
