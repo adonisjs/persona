@@ -76,6 +76,7 @@ module.exports = {
       table.string('token').notNull()
       table.string('type').notNull()
       table.boolean('is_revoked').defaultsTo(false)
+      table.timestamp('expires_at').nullable()
       table.timestamps()
     })
   },
