@@ -559,8 +559,8 @@ class Persona {
      */
     if (user.account_status === this.config.newAccountState) {
       user.account_status = this.config.verifiedAccountState
-      this.removeToken(token, 'email')
       await user.save()
+      await this.removeToken(token, 'email')
     }
 
     return user
