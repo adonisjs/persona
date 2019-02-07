@@ -277,13 +277,27 @@ class Persona {
   }
 
   /**
-   * Returns an object of registeration rules
+   * Returns an object of registration rules
    *
    * @method registerationRules
    *
    * @return {Object}
+   *
+   * @deprecated
    */
   registerationRules () {
+    console.warn('The \'registerationRules\' method is deprecated. Use \'registrationRules\' instead')
+    return this.registrationRules()
+  }
+
+  /**
+   * Returns an object of registration rules
+   *
+   * @method registrationRules
+   *
+   * @return {Object}
+   */
+  registrationRules () {
     return this.config.uids.reduce((result, uid) => {
       const rules = ['required']
       if (uid === this.config.email) {
@@ -357,16 +371,33 @@ class Persona {
   }
 
   /**
-   * Mutates the registeration payload in the shape that
+   * Mutates the registration payload in the shape that
    * can be inserted to the database
    *
    * @method massageRegisterationData
+   *
+   * @param  {Object} payload
+   *
+   * @return {void}
+   *
+   * @deprecated
+   */
+  massageRegisterationData (payload) {
+    console.warn('The \'massageRegisterationData\' method is deprecated. Use \'massageRegistrationData\' instead')
+    return this.massageRegistrationData(payload)
+  }
+
+  /**
+   * Mutates the registration payload in the shape that
+   * can be inserted to the database
+   *
+   * @method massageRegistrationData
    *
    * @param  {Object}                 payload
    *
    * @return {void}
    */
-  massageRegisterationData (payload) {
+  massageRegistrationData (payload) {
     delete payload[this._passwordConfirmationField]
     payload.account_status = this.config.newAccountState
   }
@@ -476,8 +507,8 @@ class Persona {
    * ```
    */
   async register (payload, callback) {
-    await this.runValidation(payload, this.registerationRules(), 'register')
-    this.massageRegisterationData(payload)
+    await this.runValidation(payload, this.registrationRules(), 'register')
+    this.massageRegistrationData(payload)
 
     if (typeof (callback) === 'function') {
       await callback(payload)

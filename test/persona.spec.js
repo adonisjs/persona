@@ -29,17 +29,17 @@ test.group('Persona', (group) => {
     await setup.migrateDown()
   })
 
-  test('get registeration rules', async (assert) => {
-    assert.deepEqual(this.persona.registerationRules(), {
+  test('get registration rules', async (assert) => {
+    assert.deepEqual(this.persona.registrationRules(), {
       email: 'required|email|unique:users,email',
       password: 'required|confirmed'
     })
   })
 
-  test('get registeration rules when uids are multiple', async (assert) => {
+  test('get registration rules when uids are multiple', async (assert) => {
     this.persona.config.uids = ['username', 'email']
 
-    assert.deepEqual(this.persona.registerationRules(), {
+    assert.deepEqual(this.persona.registrationRules(), {
       email: 'required|email|unique:users,email',
       username: 'required|unique:users,username',
       password: 'required|confirmed'
@@ -737,7 +737,7 @@ test.group('Persona', (group) => {
   })
 
   test('use custom registration rules', async (assert) => {
-    this.persona.registerationRules = function () {
+    this.persona.registrationRules = function () {
       return {
         username: 'required'
       }

@@ -270,12 +270,12 @@ Raised when a supplied token, to verify an email or reset password with, is inva
 ## Custom rules
 At times, you may want to have custom set of rules when registering or login new users. You can override following methods for same.
 
-The code can be added inside the hooks file or even in the registeration controller.
+The code can be added inside the hooks file or even in the registration controller.
 
-#### registerationRules
+#### registrationRules
 
 ```js
-Persona.registerationRules = function () {
+Persona.registrationRules = function () {
   return {
     email: 'required|email|unique:users,email',
     password: 'required|confirmed'
