@@ -86,6 +86,17 @@ module.exports = {
 
   /*
   |--------------------------------------------------------------------------
+  | Valid For
+  |--------------------------------------------------------------------------
+  |
+  | The default time in hours the token is valid for. This can be changed for
+  | an individual token by calling `isValidFor()` before generating it.
+  |
+  */
+  validFor: 24,
+
+  /*
+  |--------------------------------------------------------------------------
   | Validation messages
   |--------------------------------------------------------------------------
   |

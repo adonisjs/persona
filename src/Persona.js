@@ -44,7 +44,8 @@ class Persona {
       model: 'App/Models/User',
       newAccountState: 'pending',
       verifiedAccountState: 'active',
-      dateFormat: 'YYYY-MM-DD HH:mm:ss'
+      dateFormat: 'YYYY-MM-DD HH:mm:ss',
+      validFor: 24
     })
 
     /**
@@ -59,6 +60,7 @@ class Persona {
 
     this._encrypter = Encryption.getInstance({ hmac: false })
     this._model = null
+    this._validFor = null
   }
 
   /**
@@ -157,7 +159,7 @@ class Persona {
     query
       .where('type', type)
       .where('is_revoked', false)
-      .where('updated_at', '>=', moment().subtract(24, 'hours').format(this.config.dateFormat))
+      .where('expires_at', '>=', moment().format(this.config.dateFormat))
   }
 
   /**
@@ -187,7 +189,16 @@ class Persona {
     }
 
     const token = this._encrypter.encrypt(randtoken.generate(16))
-    await user.tokens().create({ type, token })
+    const expiresAt = moment().add(this.getValidFor(), 'hours').format(this.config.dateFormat)
+
+    this._validFor = null
+
+    await user.tokens().create({
+      type,
+      token,
+      expires_at: expiresAt
+    })
+
     return token
   }
 
@@ -274,6 +285,36 @@ class Persona {
    */
   getTable () {
     return this.getModel().table
+  }
+
+  /**
+   * Returns the duration in hours the a generated token should be valid for
+   *
+   * @method getValidFor
+   *
+   * @return {Number}
+   */
+  getValidFor () {
+    if (this._validFor) {
+      return this._validFor
+    }
+
+    return this.config.validFor
+  }
+
+  /**
+   * Sets the duration in hours the a generated token should be valid for
+   *
+   * @method isValidFor
+   *
+   * @param {Number} payload
+   *
+   * @return {Persona}
+   */
+  isValidFor (payload) {
+    this._validFor = payload
+
+    return this
   }
 
   /**

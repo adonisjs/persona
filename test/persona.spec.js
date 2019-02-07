@@ -206,7 +206,8 @@ test.group('Persona', (group) => {
       user_id: user.id,
       is_revoked: false,
       created_at: moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss'),
-      updated_at: moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss')
+      updated_at: moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss'),
+      expires_at: moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')
     })
 
     assert.plan(2)
@@ -228,7 +229,8 @@ test.group('Persona', (group) => {
       user_id: user.id,
       is_revoked: false,
       created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
-      updated_at: moment().format('YYYY-MM-DD HH:mm:ss')
+      updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+      expires_at: moment().add(2, 'days').format('YYYY-MM-DD HH:mm:ss')
     })
 
     assert.plan(2)
@@ -250,7 +252,8 @@ test.group('Persona', (group) => {
       is_revoked: false,
       user_id: user.id,
       created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
-      updated_at: moment().format('YYYY-MM-DD HH:mm:ss')
+      updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+      expires_at: moment().add(2, 'days').format('YYYY-MM-DD HH:mm:ss')
     })
 
     await this.persona.verifyEmail('hello')
@@ -271,7 +274,8 @@ test.group('Persona', (group) => {
       is_revoked: false,
       user_id: user.id,
       created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
-      updated_at: moment().format('YYYY-MM-DD HH:mm:ss')
+      updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+      expires_at: moment().add(2, 'days').format('YYYY-MM-DD HH:mm:ss')
     })
 
     await this.persona.verifyEmail('hello')
@@ -604,7 +608,8 @@ test.group('Persona', (group) => {
       user_id: user.id,
       is_revoked: false,
       created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
-      updated_at: moment().format('YYYY-MM-DD HH:mm:ss')
+      updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+      expires_at: moment().add(2, 'days').format('YYYY-MM-DD HH:mm:ss')
     })
 
     try {
@@ -629,7 +634,8 @@ test.group('Persona', (group) => {
       user_id: user.id,
       is_revoked: false,
       created_at: moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss'),
-      updated_at: moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss')
+      updated_at: moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss'),
+      expires_at: moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')
     })
 
     try {
@@ -655,7 +661,8 @@ test.group('Persona', (group) => {
       user_id: user.id,
       is_revoked: false,
       created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
-      updated_at: moment().format('YYYY-MM-DD HH:mm:ss')
+      updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+      expires_at: moment().add(2, 'days').format('YYYY-MM-DD HH:mm:ss')
     })
 
     await this.persona.updatePasswordByToken('hello', { password: 'newsecret', password_confirmation: 'newsecret' })
@@ -748,5 +755,59 @@ test.group('Persona', (group) => {
 
     assert.equal(users.size(), 1)
     assert.equal(users.first().email, 'foo@bar.com')
+  })
+
+  test('generated tokens are valid for 24 hours by default', async (assert) => {
+    const user = await getUser().create({
+      username: 'virk',
+      email: 'foo@bar.com',
+      account_status: 'active',
+      password: 'secret'
+    })
+
+    const token = await this.persona.generateToken(user, 'email')
+
+    const tokenEntity = await this.persona.getToken(token, 'email')
+    assert.equal(tokenEntity.expires_at, moment().add(1, 'days').format('YYYY-MM-DD HH:mm:ss'))
+  })
+
+  test('tokens without an expiry date are invalid', async (assert) => {
+    const user = await getUser().create({ email: 'foo@bar.com' })
+
+    await use('Database').table('tokens').insert({
+      token: 'hello',
+      type: 'email',
+      user_id: user.id,
+      is_revoked: false,
+      created_at: moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss'),
+      updated_at: moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss'),
+      expires_at: null
+    })
+
+    assert.plan(2)
+
+    try {
+      await this.persona.verifyEmail('hello')
+    } catch ({ message, name }) {
+      assert.equal(message, 'The token is invalid or expired')
+      assert.equal(name, 'InvalidTokenException')
+    }
+  })
+
+  test('the expiry date for a tokens can be changed for each token', async (assert) => {
+    const user = await getUser().create({
+      username: 'virk',
+      email: 'foo@bar.com',
+      account_status: 'active',
+      password: 'secret'
+    })
+
+    const token = await this.persona.isValidFor(48).generateToken(user, 'email')
+    const tokenEntity = await this.persona.getToken(token, 'email')
+    assert.equal(tokenEntity.expires_at, moment().add(2, 'days').format('YYYY-MM-DD HH:mm:ss'))
+
+    const token1 = await this.persona.generateToken(user, 'password')
+    const tokenEntity1 = await this.persona.getToken(token1, 'password')
+    assert.equal(tokenEntity1.expires_at, moment().add(1, 'days').format('YYYY-MM-DD HH:mm:ss'))
   })
 })
