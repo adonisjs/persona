@@ -20,7 +20,7 @@ Persona is not for everyone; if your login system is too complex and relies on m
 5. Allows changing passwords.
 6. Allows recovering forgotten passwords.
 
-## What does it NOT do?
+## What does NOT it do?
 1. Does not generate any routes, controllers or views for you.
 2. Does not send emails. However, it emits events that you can use to send emails.
 3. Does not create sessions or generate JWT tokens.
