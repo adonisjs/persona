@@ -6,7 +6,6 @@
   "scripts": {
     "lint": "standard",
     "pretest": "npm run lint",
-    "posttest": "npm run coverage",
     "test": "nyc japa",
     "test:win": "node ./node_modules/japa-cli/index.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
@@ -26,23 +25,23 @@
   "author": "virk",
   "license": "MIT",
   "devDependencies": {
-    "@adonisjs/ace": "^5.0.1",
-    "@adonisjs/fold": "^4.0.8",
-    "@adonisjs/framework": "^5.0.6",
-    "@adonisjs/lucid": "^5.0.3",
-    "@adonisjs/sink": "^1.0.16",
-    "@adonisjs/validator": "^5.0.3",
-    "coveralls": "^3.0.0",
+    "@adonisjs/ace": "^5.0.8",
+    "@adonisjs/fold": "^4.0.9",
+    "@adonisjs/framework": "^5.0.12",
+    "@adonisjs/lucid": "^5.0.4",
+    "@adonisjs/sink": "^1.0.17",
+    "@adonisjs/validator": "^5.0.6",
+    "coveralls": "^3.0.2",
     "cz-conventional-changelog": "^2.1.0",
     "japa": "^1.0.6",
     "japa-cli": "^1.0.1",
-    "nyc": "^11.7.1",
-    "sqlite3": "^4.0.0",
+    "nyc": "^11.9.0",
+    "sqlite3": "^4.0.6",
     "standard": "^11.0.1"
   },
   "dependencies": {
-    "@adonisjs/generic-exceptions": "^2.0.0",
-    "moment": "^2.22.1",
+    "@adonisjs/generic-exceptions": "^2.0.1",
+    "moment": "^2.24.0",
     "rand-token": "^0.4.0"
   },
   "standard": {

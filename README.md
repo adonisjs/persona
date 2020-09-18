@@ -52,7 +52,7 @@ const Persona = use('Persona')
 
 ## Config
 
-The config file is saved as `config/persona.js`. 
+The config file is saved as `config/persona.js`.
 
 | Key | Value | Description |
 |-----|--------|------------|
@@ -71,22 +71,22 @@ There are some intentional constraints in place.
 
 1. Only works with `Lucid` models.
 2. The `App/Models/User` must have a relationship setup with `App/Models/Token` and vice-versa.
-   
+
    ```js
    class User extends Model {
      tokens () {
        return this.hasMany('App/Models/Token')
      }
    }
-   
+
    class Token extends Model {
      user () {
        return this.belongsTo('App/Models/User')
      }
    }
    ```
-   
- 3. User table must have a column called `account_status`.
+
+ 3. User table must have a `string` column called `account_status`.
 
 ## API
 
@@ -134,7 +134,7 @@ async login ({ request, auth, response }) {
 
   await auth.login(user)
   response.redirect('/dashboard')
-})
+}
 ```
 
 #### verifyEmail(token)
@@ -150,7 +150,7 @@ async verifyEmail ({ params, session, response }) {
 
   session.flash({ message: 'Email verified' })
   response.redirect('back')
-})
+}
 ```
 
 #### updateProfile(user, payload)
@@ -168,7 +168,7 @@ async update ({ request, auth }) {
   const payload = request.only(['firstname', 'email'])
   const user = auth.user
   await Persona.updateProfile(user, payload)
-})
+}
 ```
 
 #### updatePassword(user, payload)
@@ -188,7 +188,7 @@ async updatePassword ({ request, auth }) {
   const payload = request.only(['old_password', 'password', 'password_confirmation'])
   const user = auth.user
   await Persona.updatePassword(user, payload)
-})
+}
 ```
 
 #### forgotPassword(uid)
@@ -200,7 +200,7 @@ Takes a forgot password request from the user by passing their `uid`. Uid will b
 3. Emits the `forgot::password` event. You can listen for this event to send an email with the token to reset the password.
 
 ```js
-forgotPassword ({ request }) {
+async forgotPassword ({ request }) {
   await Persona.forgotPassword(request.input('uid'))
 }
 ```
@@ -214,11 +214,11 @@ Updates the user password using a token. This method performs the following chec
 3. Updates the user's password.
 
 ```js
-updatePasswordByToken ({ request, params }) {
+async updatePasswordByToken ({ request, params }) {
   const token = params.token
   const payload = request.only(['password', 'password_confirmation'])
-  
-  const user = await Persona.updatePasswordByToken(payload)
+
+  const user = await Persona.updatePasswordByToken(token, payload)
 }
 ```
 
@@ -245,7 +245,7 @@ The `validationMessages` method gets an `action` parameter. You can use it to cu
 
 ## Events emitted
 
-Below is the list of events emitted at different occasions. 
+Below is the list of events emitted at different occasions.
 
 | Event | Payload | Description |
 |--------|--------|-------------|
@@ -275,7 +275,7 @@ The code can be added inside the hooks file or even in the registeration control
 #### registerationRules
 
 ```js
-Persona.prototype.registerationRules = function () {
+Persona.registerationRules = function () {
   return {
     email: 'required|email|unique:users,email',
     password: 'required|confirmed'
@@ -285,7 +285,7 @@ Persona.prototype.registerationRules = function () {
 
 #### updateEmailRules
 ```js
-Persona.prototype.updateEmailRules = function (userId) {
+Persona.updateEmailRules = function (userId) {
   return {
     email: `required|email|unique:users,email,id,${userId}`
   }
@@ -294,7 +294,7 @@ Persona.prototype.updateEmailRules = function (userId) {
 
 #### updatePasswordRules
 ```js
-Persona.prototype.updatePasswordRules = function (enforceOldPassword = true) {
+Persona.updatePasswordRules = function (enforceOldPassword = true) {
   if (!enforceOldPassword) {
     return {
       password: 'required|confirmed'
@@ -310,7 +310,7 @@ Persona.prototype.updatePasswordRules = function (enforceOldPassword = true) {
 
 #### loginRules
 ```js
-Persona.prototype.loginRules = function () {
+Persona.loginRules = function () {
   return {
     uid: 'required',
     password: 'required'
